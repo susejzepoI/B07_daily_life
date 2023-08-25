@@ -72,113 +72,89 @@ string[] categories = { "SPEND", "DO", "STAY", "MAKE", "EAT", "HAVE", "GO", "CHA
 
 Dictionary<string,string> dicSelectedWords = new Dictionary<string,string>();
 
+void checkMyAnswers(Stack<string> StackToEvaluate, Stack<string> StackWithAnswers, string CategoryName)
+{
+    bool b = StackToEvaluate.Any();
+    if (b)
+    {
+        foreach (var word in StackToEvaluate)
+        {
+            Console.Write("(B07_Daily_Life):");
+            Console.Write(" You selected the category '" + CategoryName + "' for the word: ");
+            Console.Write(word + ".");
+            bool bb = StackWithAnswers.Where(x => x.Equals(word.Trim())).Any();
+
+            if (bb) Console.WriteLine($"That answer is correct!.");
+            else Console.WriteLine($"That answer is incorrec!.");
+        }
+    }
+    else
+    {
+        Console.WriteLine("(B07_Daily_Life): The category '" + CategoryName + "' doesn't containt any word.");
+    }
+
+}
+
 void SubmitAnswers()
 {
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-    foreach (var word in SpendStack)
-    {
-        Console.WriteLine("(B07_Daily_Life):");
-        Console.Write($" You selected the category 'SPEND' for the word: ");
-        Console.Write(word + ".");
-        bool b = SpendStackAnswer.Where(x => x.Equals(word.Trim())).Any();
-
-        if(b) Console.Write($"That answer is correct!.");
-        else Console.Write($"That answer is incorrec!."); 
-    }
+    checkMyAnswers(SpendStack, SpendStackAnswer, "SPEND");
 
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-    foreach (var word in DoStack)
-    {
-        Console.WriteLine("(B07_Daily_Life):");
-        Console.Write($" You selected the category 'DO' for the word: ");
-        Console.Write(word + ".");
-        bool b = DoStackAnswer.Where(x => x.Equals(word.Trim())).Any();
+    checkMyAnswers(DoStack, DoStackAnswer, "DO");
+ 
+    Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-        if (b) Console.Write($"That answer is correct!.");
-        else Console.Write($"That answer is incorrec!.");
-    }
+    checkMyAnswers(StayStack, StayStackAnswer, "STAY");
 
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-    foreach (var word in StayStack)
-    {
-        Console.WriteLine("(B07_Daily_Life):");
-        Console.Write($" You selected the category 'STAY' for the word: ");
-        Console.Write(word + ".");
-        bool b = StayStackAnswer.Where(x => x.Equals(word.Trim())).Any();
-
-        if (b) Console.Write($"That answer is correct!.");
-        else Console.Write($"That answer is incorrec!.");
-    }
+    checkMyAnswers(MakeStack, MakeStackAnswer, "MAKE");
 
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-    foreach (var word in MakeStack)
-    {
-        Console.WriteLine("(B07_Daily_Life):");
-        Console.Write($" You selected the category 'MAKE' for the word: ");
-        Console.Write(word + ".");
-        bool b = MakeStackAnswer.Where(x => x.Equals(word.Trim())).Any();
-
-        if (b) Console.Write($"That answer is correct!.");
-        else Console.Write($"That answer is incorrec!.");
-    }
+    checkMyAnswers(EatStack, EatStackAnswer, "EAT");
 
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-    foreach (var word in EatStack)
-    {
-        Console.WriteLine("(B07_Daily_Life):");
-        Console.Write($" You selected the category 'EAT' for the word: ");
-        Console.Write(word + ".");
-        bool b = EatStackAnswer.Where(x => x.Equals(word.Trim())).Any();
-
-        if (b) Console.Write($"That answer is correct!.");
-        else Console.Write($"That answer is incorrec!.");
-    }
+    checkMyAnswers(HaveStack, HaveStackAnswer, "HAVE");
 
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-    foreach (var word in HaveStack)
-    {
-        Console.WriteLine("(B07_Daily_Life):");
-        Console.Write($" You selected the category 'HAVE' for the word: ");
-        Console.Write(word + ".");
-        bool b = HaveStackAnswer.Where(x => x.Equals(word.Trim())).Any();
-
-        if (b) Console.Write($"That answer is correct!.");
-        else Console.Write($"That answer is incorrec!.");
-    }
+    checkMyAnswers(GoStack, GoStackAnswer, "GO");
 
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-    foreach (var word in GoStack)
-    {
-        Console.WriteLine("(B07_Daily_Life):");
-        Console.Write($" You selected the category 'EAT' for the word: ");
-        Console.Write(word + ".");
-        bool b = GoStackAnswer.Where(x => x.Equals(word.Trim())).Any();
-
-        if (b) Console.Write($"That answer is correct!.");
-        else Console.Write($"That answer is incorrec!.");
-    }
+    checkMyAnswers(ChatStack, ChatStackAnswer, "CHAT");
 
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+}
 
-    foreach (var word in ChatStack)
-    {
-        Console.WriteLine("(B07_Daily_Life):");
-        Console.Write($" You selected the category 'EAT' for the word: ");
-        Console.Write(word + ".");
-        bool b = ChatStackAnswer.Where(x => x.Equals(word.Trim())).Any();
-
-        if (b) Console.Write($"That answer is correct!.");
-        else Console.Write($"That answer is incorrec!.");
-    }
-
-    Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+void shorcut()
+{
+    //JLopez-25082023: This method was done to test quickly the submition of anwsers.
+    SpendStack.Push("TIME WITH RELATIVES");
+    HaveStack.Push("HOMEWORK");
+    SpendStack.Push("THE SHOPPING");
+    DoStack.Push("SOME EXERCISE");
+    DoStack.Push("HOME WORK");
+    GoStack.Push("HOUSEWORK");
+    EatStack.Push("IN FOR THE EVENING");
+    MakeStack.Push("FUTURE PLANS");
+    MakeStack.Push("A TO-DO LIST");
+    EatStack.Push("HEALTHY FOOD");
+    HaveStack.Push("FUN");
+    GoStack.Push("A LIE-IN");
+    ChatStack.Push("A GOOD TIME");
+    HaveStack.Push("A FAMILY MEAL");
+    HaveStack.Push("AN EARLY NIGHT");
+    DoStack.Push("ON A TRIP");
+    GoStack.Push("SHOPPING");
+    GoStack.Push("TO BED LATE");
+    ChatStack.Push("WITH FRIENDS ONLINE");
+    arrBucketOfWordsToBeSelected = new string[] { };
 }
 
 void AsignecategoryForEachWord(string word,string category)
@@ -384,6 +360,10 @@ do
             Console.WriteLine("(B07_Daily_Life): Press any key to continue...");
             Console.ReadLine();
             Console.Clear();
+        }else if (iNum == 100)
+        {
+            //JLopez-25082023: This method was done to test quickly the submition of anwsers.
+            shorcut();
         }
         Console.Clear();
     }
