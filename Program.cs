@@ -1,5 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using System.Linq;
 
 Stack<string> SpendStack = new Stack<string>();
 Stack<string> DoStack = new Stack<string>();
@@ -365,8 +364,6 @@ do
             //JLopez-25082023: This method was done to test quickly the submition of anwsers.
             shorcut();
         }
-        Console.Clear();
-    }
     else
     {
         Console.Clear();
