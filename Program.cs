@@ -82,9 +82,18 @@ void checkMyAnswers(Stack<string> StackToEvaluate, Stack<string> StackWithAnswer
             Console.Write(" You selected the category '" + CategoryName + "' for the word: ");
             Console.Write(word + ".");
             bool bb = StackWithAnswers.Where(x => x.Equals(word.Trim())).Any();
-
-            if (bb) Console.WriteLine($"That answer is correct!.");
-            else Console.WriteLine($"That answer is incorrec!.");
+            Console.Write($"That answer is ");
+            if (bb)
+            {
+                Console.ForegroundColor= ConsoleColor.Green;
+                Console.WriteLine($"correct!.");     
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"incorrec!.");
+            }
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
     else
@@ -234,12 +243,13 @@ void UndoCategorizateWord(string category)
     arrBucketOfWordsToBeSelected[i-1] = aux;
 }
 
-Console.Title = "<<<<<<<<<< Daily life >>>>>>>>>>>>>";
-Console.BackgroundColor = ConsoleColor.DarkBlue;
+Console.Title = "<<<<< Daily life >>>>>";
+Console.BackgroundColor = ConsoleColor.DarkGray;
+Console.ForegroundColor = ConsoleColor.White;
 
 Console.WriteLine("(B07_Daily_Life): Welcome back to this game!.");
 Console.WriteLine("(B07_Daily_Life): Creation date:         07/08/2023.");
-Console.WriteLine("(B07_Daily_Life): Modification date:     20/08/2023.");
+Console.WriteLine("(B07_Daily_Life): Modification date:     02/09/2023.");
 Console.WriteLine("(B07_Daily_Life): Author:                Jesus Lopez.");
 Console.WriteLine("(B07_Daily_Life): Linkedin:              https://www.linkedin.com/in/susejzepol/");
 Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -249,9 +259,9 @@ Console.WriteLine("(B07_Daily_Life): Let's begin. ");
 
 string iWord = string.Empty;
 string iCategoy = string.Empty;
-int iNum = 1;
+string sOption = string.Empty;
 
-do
+void showTheWordsAndCategories()
 {
     string words = string.Empty;
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -272,11 +282,11 @@ do
     }
 
     Console.WriteLine("(B07_Daily_Life): The valid categories are:");
-    
+
     words = " [ ";
 
     Console.Write("(B07_Daily_Life): SPEND");
-    foreach(var w in SpendStack) words += w + ",";
+    foreach (var w in SpendStack) words += w + ",";
     words = words.Substring(0, words.Length - 1);
     Console.WriteLine(words + " ].");
 
@@ -325,16 +335,22 @@ do
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
     Console.WriteLine("(B07_Daily_Life): What will you do?");
-    Console.WriteLine("(B07_Daily_Life): (1) Enter a new word in a category.");
-    Console.WriteLine("(B07_Daily_Life): (2) Remove a word in a category.");
-    Console.WriteLine("(B07_Daily_Life): (3) Submit Answers.");
-    Console.WriteLine("(B07_Daily_Life): (4) Exit the game.");
+    Console.WriteLine("(B07_Daily_Life): (a) Enter a new word in a category.");
+    Console.WriteLine("(B07_Daily_Life): (b) Remove a word in a category.");
+    Console.WriteLine("(B07_Daily_Life): (c) Submit Answers.");
+    Console.WriteLine("(B07_Daily_Life): (d) Save score.");
+    Console.WriteLine("(B07_Daily_Life): (e) Show scores.");
+    Console.WriteLine("(B07_Daily_Life): (x) Exit the game.");
+}
 
-    bool success = int.TryParse(Console.ReadLine(), out iNum);
-
-    if (success)
+try {
+    do
     {
-        if (iNum == 1)
+        showTheWordsAndCategories();
+        sOption = Console.ReadLine().ToLower();
+
+
+        if (sOption == "a")
         {
             Console.WriteLine("(B07_Daily_Life): Please, select a valid word to asociate it to a valid category.");
             iWord = Console.ReadLine().ToUpper();
@@ -344,14 +360,14 @@ do
 
             if (checkWordsAndCategory(iCategoy, iWord)) AsignecategoryForEachWord(iWord, iCategoy);
         }
-        else if (iNum == 2)
+        else if (sOption == "b")
         {
             Console.WriteLine("(B07_Daily_Life): Please, select a valid category.");
             iCategoy = Console.ReadLine().ToUpper();
 
             if (checkWordsAndCategory(iCategoy)) UndoCategorizateWord(iCategoy);
         }
-        else if (iNum == 3)
+        else if (sOption == "c")
         {
             Console.Clear();
             Console.WriteLine("(B07_Daily_Life): Ready to submit your answers.");
@@ -359,18 +375,37 @@ do
             Console.WriteLine("(B07_Daily_Life): Press any key to continue...");
             Console.ReadLine();
             Console.Clear();
-        }else if (iNum == 100)
+        }
+        else if (sOption == "d")
+        {
+
+        }
+        else if (sOption == "e")
+        {
+
+        }
+        else if (sOption == "<")
         {
             //JLopez-25082023: This method was done to test quickly the submition of anwsers.
             shorcut();
         }
-    else
-    {
+        else
+        {
+            Console.Clear();
+            Console.WriteLine("(B07_Daily_Life): The option that you entered isn't valid. Please enter a valid option from the menu to continue.");
+            Console.WriteLine("(B07_Daily_Life): Press any key to continue...");
+            Console.ReadLine();
+            Console.Clear();
+        }
         Console.Clear();
-        Console.WriteLine("(B07_Daily_Life): The option that you entered isn't a valid number. Please enter a valid number from 1 to 3 to continue.");
-        Console.WriteLine("(B07_Daily_Life): Press any key to continue...");
-        Console.ReadLine();
-        Console.Clear();
-    }
+    } while (sOption != "x");
+}
+catch(InvalidCastException ecast) {
 
-} while(iNum != 4);
+    Console.WriteLine("(B07_Daily_Life): ERROR: " + ecast.Message);
+}
+catch(Exception e)
+{
+    Console.WriteLine("(B07_Daily_Life): ERROR: " + e.Message);
+}
+
