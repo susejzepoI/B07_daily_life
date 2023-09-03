@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Microsoft.VisualBasic;
+
 Stack<string> SpendStack = new Stack<string>();
 Stack<string> DoStack = new Stack<string>();
 Stack<string> StayStack = new Stack<string>();
@@ -68,8 +70,48 @@ string[] arrBucketOfWordsToBeSelected = new string[]
 };
 
 string[] categories = { "SPEND", "DO", "STAY", "MAKE", "EAT", "HAVE", "GO", "CHAT" };
-
 Dictionary<string,string> dicSelectedWords = new Dictionary<string,string>();
+double curent_score = 0;
+DateTime begin;
+DateTime end;
+void spendtTime(int diff)
+{
+    Console.WriteLine("(B07_Daily_Life): You started the game at: " + begin.ToString());
+    Console.WriteLine("(B07_Daily_Life): You Ended the game at: " + end.ToString());
+    Console.WriteLine("(B07_Daily_Life): You've took {0} seconds to ended the game.", diff);
+
+    if( diff < 60)
+
+    {
+        curent_score += 10000;
+        Console.WriteLine("(B07_Daily_Life): You've won 10000 points for ended the game in less than 60 seconds.");
+    }
+    else if (diff >= 60 && diff < 120)
+    {
+        curent_score += 5000;
+        Console.WriteLine("(B07_Daily_Life): You've won 5000 points for ended the game in less than 120 seconds.");
+    }
+    else if (diff >= 120 && diff < 240)
+    {
+        curent_score += 3000;
+        Console.WriteLine("(B07_Daily_Life): You've won 3000 points for ended the game in less than 240 seconds.");
+    }
+    else if (diff >= 240 && diff < 300)
+    {
+        curent_score += 1000;
+        Console.WriteLine("(B07_Daily_Life): You've won 1000 points for ended the game in less than 300 seconds.");
+    }
+    else if (diff >= 300 && diff < 400)
+    {
+        curent_score += 500;
+        Console.WriteLine("(B07_Daily_Life): You've won 500 points for ended the game in less than 400 seconds.");
+    }
+    else
+    {
+        curent_score += 5;
+        Console.WriteLine("(B07_Daily_Life): You've won 5 points for ended the game.");
+    }
+}
 
 void checkMyAnswers(Stack<string> StackToEvaluate, Stack<string> StackWithAnswers, string CategoryName)
 {
@@ -85,13 +127,15 @@ void checkMyAnswers(Stack<string> StackToEvaluate, Stack<string> StackWithAnswer
             Console.Write($"That answer is ");
             if (bb)
             {
+                curent_score += 1;
                 Console.ForegroundColor= ConsoleColor.Green;
-                Console.WriteLine($"correct!.");     
+                Console.WriteLine($"correct! (1P).");     
             }
             else
             {
+                curent_score -= 0.5;
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"incorrec!.");
+                Console.WriteLine($"incorrec!. (-0.5P).");
             }
             Console.ForegroundColor = ConsoleColor.White;
         }
@@ -105,6 +149,8 @@ void checkMyAnswers(Stack<string> StackToEvaluate, Stack<string> StackWithAnswer
 
 void SubmitAnswers()
 {
+    end = DateTime.Now;
+
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
     checkMyAnswers(SpendStack, SpendStackAnswer, "SPEND");
@@ -138,6 +184,12 @@ void SubmitAnswers()
     checkMyAnswers(ChatStack, ChatStackAnswer, "CHAT");
 
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    
+    var diff = (end - begin).Seconds;
+    
+    spendtTime(diff);
+
+    Console.WriteLine("(B07_Daily_Life): You've achieved {0} points on {1} seconds.",curent_score,diff);
 }
 
 void shorcut()
@@ -266,7 +318,7 @@ void showTheWordsAndCategories()
     string words = string.Empty;
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     Console.WriteLine("(B07_Daily_Life): The words to be selected are:");
-    Console.Write("(B07_Daily_Life): ");
+    Console.WriteLine("(B07_Daily_Life): ");
 
     foreach (var i in arrBucketOfWordsToBeSelected)
     {
@@ -344,6 +396,9 @@ void showTheWordsAndCategories()
 }
 
 try {
+
+    begin = DateTime.Now;
+
     do
     {
         showTheWordsAndCategories();
