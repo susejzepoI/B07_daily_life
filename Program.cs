@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using B07_daily_life;
 using Microsoft.VisualBasic;
 
 Stack<string> SpendStack = new Stack<string>();
@@ -74,6 +75,35 @@ Dictionary<string,string> dicSelectedWords = new Dictionary<string,string>();
 double curent_score = 0;
 DateTime begin;
 DateTime end;
+
+void saveScore(int timeTook)
+{
+    var iUserName = "";
+    var confirmation = "";
+
+    do
+    {
+        Console.WriteLine("(B07_Daily_Life): Write your username.");
+        iUserName = Console.ReadLine();
+        if (iUserName.Trim().Length > 0)
+        {
+            Console.WriteLine("(B07_Daily_Life): The username selected is {0}", iUserName);
+            Console.WriteLine("(B07_Daily_Life): Entered (c) to confirm or any other key to reset the username");
+            confirmation = Console.ReadLine();
+            if (confirmation.Trim() != "c")
+            {
+                iUserName = "";
+            }
+        }
+    } while (iUserName.Trim().Length == 0);
+
+        Score score = new Score(iUserName,begin,end, timeTook, curent_score);
+    Console.WriteLine("(B07_Daily_Life): {0} your score has been saved.",iUserName);
+    iUserName = "";
+    timeTook = 0;
+    curent_score = 0;
+}
+
 void spendtTime(int diff)
 {
     Console.WriteLine("(B07_Daily_Life): You started the game at: " + begin.ToString());
@@ -185,11 +215,12 @@ void SubmitAnswers()
 
     Console.WriteLine("(B07_Daily_Life): >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     
-    var diff = (end - begin).Seconds;
+    var diff = ((end - begin).Minutes*60) + (end - begin).Seconds;
     
     spendtTime(diff);
 
     Console.WriteLine("(B07_Daily_Life): You've achieved {0} points on {1} seconds.",curent_score,diff);
+    saveScore(diff);
 }
 
 void shorcut()
