@@ -2,6 +2,7 @@
 
 using B07_daily_life;
 using Microsoft.VisualBasic;
+using System.Text.Json;
 
 Stack<string> SpendStack = new Stack<string>();
 Stack<string> DoStack = new Stack<string>();
@@ -76,6 +77,27 @@ double curent_score = 0;
 DateTime begin;
 DateTime end;
 
+
+void readScores()
+{
+    Console.WriteLine("-------------------------------------------------------------------------");
+    Console.WriteLine("USER NAME\t\tBEGIN\t\t\t\t\tEND\t\t\t\t\tTIME TOOK\t\tSCORE");
+    Console.WriteLine("-------------------------------------------------------------------------");
+    foreach (string file in Directory.GetFiles(@".\", "scores_*.json"))
+    {
+        string text = File.ReadAllText(file);
+
+        Score? score = JsonSerializer.Deserialize<Score>(text);
+
+        Console.WriteLine("{0}\t\t{1}\t{2}\t\t\t{3}\t\t\t{4}",score?.userName,score?.begin,score?.end,score?.timeTook,score?.score);
+    }
+
+    Console.WriteLine("(B07_Daily_Life): Press any key to continue...");
+    Console.ReadLine();
+    Console.Clear();
+
+}
+
 void saveScore(int timeTook)
 {
     var iUserName = "";
@@ -97,7 +119,8 @@ void saveScore(int timeTook)
         }
     } while (iUserName.Trim().Length == 0);
 
-        Score score = new Score(iUserName,begin,end, timeTook, curent_score);
+    Score score = new Score(iUserName, begin, end, timeTook, curent_score);
+    score.saveToJson();
     Console.WriteLine("(B07_Daily_Life): {0} your score has been saved.",iUserName);
     iUserName = "";
     timeTook = 0;
@@ -421,8 +444,7 @@ void showTheWordsAndCategories()
     Console.WriteLine("(B07_Daily_Life): (a) Enter a new word in a category.");
     Console.WriteLine("(B07_Daily_Life): (b) Remove a word in a category.");
     Console.WriteLine("(B07_Daily_Life): (c) Submit Answers.");
-    Console.WriteLine("(B07_Daily_Life): (d) Save score.");
-    Console.WriteLine("(B07_Daily_Life): (e) Show scores.");
+    Console.WriteLine("(B07_Daily_Life): (d) Show scores.");
     Console.WriteLine("(B07_Daily_Life): (x) Exit the game.");
 }
 
@@ -464,11 +486,7 @@ try {
         }
         else if (sOption == "d")
         {
-
-        }
-        else if (sOption == "e")
-        {
-
+            readScores();
         }
         else if (sOption == "<")
         {
